@@ -1,15 +1,24 @@
-import { ShoppingListItem } from './../data/shopping-list-item.interface';
+import { Ingredient } from './../models/ingredient';
 import { Injectable } from "@angular/core";
 
 @Injectable()
 export  class ShoppingListService {
-    shoppingList: ShoppingListItem[] = []; 
+    private ingredients: Ingredient[] = []; 
 
-    getShoppingList(){
-        return this.shoppingList; 
+    getItems():Ingredient[]{
+        return this.ingredients.slice(); 
     }
 
-    addToShoppingList(item: ShoppingListItem){
-        this.shoppingList.push(item); 
+    addItem(name: string, amount: number){
+        this.ingredients.push(new Ingredient(name, amount)); 
+        console.log(this.ingredients); 
+    }
+
+    addItems(items: Ingredient[]){
+        this.ingredients.push(...items); 
+    }
+
+    removeItem(index:number){
+        this.ingredients.splice(index, 1); 
     }
 }

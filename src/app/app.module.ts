@@ -1,5 +1,4 @@
 import { RecipesService } from './../services/recipes';
-import { HomePage } from './../pages/home/home';
 import { TabsPage } from './../pages/tabs/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -13,8 +12,7 @@ import { ShoppingListService } from '../services/shopping-list';
 @NgModule({
   declarations: [
     MyApp,
-    TabsPage, 
-    HomePage
+    TabsPage
   ],
   imports: [
     BrowserModule,
@@ -23,8 +21,7 @@ import { ShoppingListService } from '../services/shopping-list';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TabsPage, 
-    HomePage
+    TabsPage
   ],
   providers: [
     StatusBar,
