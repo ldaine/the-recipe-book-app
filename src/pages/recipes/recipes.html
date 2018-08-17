@@ -1,9 +1,19 @@
 <ion-header>
     <ion-navbar>
         <ion-title>Recipes</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="onAddRecipe()">
+                <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <p>This is recipes page</p>
+    <ion-list>
+        <button ion-item *ngFor="let recipe of recipes" (click)="onGoToRecipe(recipe)">
+            <h3>{{recipe.title}}</h3>
+            <p>{{recipe.difficulty}}</p>
+        </button>
+    </ion-list>
 </ion-content>

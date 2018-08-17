@@ -1,3 +1,4 @@
+import { RecipesService } from './../services/recipes';
 import { HomePage } from './../pages/home/home';
 import { TabsPage } from './../pages/tabs/tabs';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
+import { ShoppingListService } from '../services/shopping-list';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { MyApp } from './app.component';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, 
+    RecipesService, 
+    ShoppingListService
   ]
 })
 export class AppModule {}
