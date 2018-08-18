@@ -1,4 +1,4 @@
-import { Recipe } from './../../data/recipe.interface';
+import { Recipe } from './../../models/recipe';
 import { RecipesService } from './../../services/recipes';
 import { IonicPage, NavController } from 'ionic-angular';
 import { Component } from '@angular/core';
@@ -20,7 +20,7 @@ export class RecipesPage {
     }
 
     onAddRecipe(){
-        this.navCtrl.push("EditRecipePage"); 
+        this.navCtrl.push("EditRecipePage", {mode: "New"}); 
     }
 
     onGoToRecipe(recipe: Recipe){
