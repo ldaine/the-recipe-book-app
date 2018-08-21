@@ -1,6 +1,6 @@
 import { Ingredient } from './../../models/ingredient';
 import { Component } from '@angular/core';
-import { IonicPage, AlertController } from 'ionic-angular';
+import { IonicPage, AlertController, PopoverController } from 'ionic-angular';
 import { ShoppingListService } from '../../services/shopping-list';
 import { NgForm } from '@angular/forms';
 
@@ -14,7 +14,8 @@ export class ShoppingListPage {
     shoppingList: Ingredient[] = []; 
 
     constructor(private shoppingListService: ShoppingListService, 
-                private alertCtrl:AlertController){}
+                private alertCtrl:AlertController, 
+                private popoverCtrl: PopoverController){}
     
     ionViewWillEnter(){
         this.loadItems(); 
@@ -53,5 +54,10 @@ export class ShoppingListPage {
 
     private loadItems(){
         this.shoppingList = this.shoppingListService.getItems(); 
+    }
+
+    presentPopover(event){
+        const popover = this.popoverCtrl.create("PopoverPage"); 
+        popover.present({ev: event}); 
     }
 }
