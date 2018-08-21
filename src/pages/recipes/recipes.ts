@@ -23,7 +23,7 @@ export class RecipesPage {
         this.navCtrl.push("EditRecipePage", {mode: "New"}); 
     }
 
-    onGoToRecipe(recipe: Recipe){
-        this.navCtrl.push("RecipePage", recipe)
+    onGoToRecipe(recipe: Recipe, index: number){
+        this.navCtrl.push("RecipePage", {recipe: recipe, index: index}); 
     }
 }

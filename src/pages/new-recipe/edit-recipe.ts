@@ -15,6 +15,8 @@ export class EditRecipePage implements OnInit{
     mode:string = "New"; 
     selectOptions: string[] = ["Easy", "Medium", "Hard"]; 
     recipeForm: FormGroup; 
+    recipe: Recipe;
+    index: number; 
 
     constructor(private navParams: NavParams, 
                 private navCtrl: NavController, 
@@ -25,15 +27,33 @@ export class EditRecipePage implements OnInit{
 
     ngOnInit(){
         this.mode = this.navParams.get("mode"); 
+        if(this.mode == "Edit"){
+            this.recipe = this.navParams.get("recipe"); 
+            this.index = this.navParams.get("index"); 
+        }
         this.initializeForm(); 
     }
 
     private initializeForm(){
+        let title:string = null; 
+        let description:string = null; 
+        let difficulty:string = 'Medium'; 
+        let ingredients = []; 
+
+        if(this.mode == "Edit"){
+            title = this.recipe.title; 
+            description = this.recipe.description; 
+            difficulty = this.recipe.difficulty;
+            for (const ingredient of this.recipe.ingredients) {
+               ingredients.push(new FormControl(ingredient.name, Validators.required)); 
+            }
+        }
+
         this.recipeForm = new FormGroup({
-            title: new FormControl(null, Validators.required), 
-            description: new FormControl(null, Validators.required), 
-            difficulty: new FormControl('Medium', Validators.required), 
-            ingredients: new FormArray([])
+            title: new FormControl(title, Validators.required), 
+            description: new FormControl(description, Validators.required), 
+            difficulty: new FormControl(difficulty, Validators.required), 
+            ingredients: new FormArray(ingredients)
         })
     }
 
@@ -54,7 +74,11 @@ export class EditRecipePage implements OnInit{
                 return new Ingredient(name, 1); 
             })
         }
-        this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients); 
+        if(this.mode =="Edit"){
+            this.recipesService.updateRecipe(this.index, value.title, value.description, value.difficulty, ingredients)
+        } else {
+            this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
+        }
         this.recipeForm.reset(); 
         this.navCtrl.popToRoot(); 
         this.presentToast("Recipe added!"); 
