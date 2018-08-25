@@ -1,17 +1,28 @@
 <ion-menu [content]="nav">
-    <ion-header padding>
-        <ion-title>Menu</ion-title>
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content>
         <ion-list>
+            <button ion-item icon-left (click)="onLoad(recipePage)">
+                <ion-icon name="book"></ion-icon>
+                The Recipe Book
+            </button>
             <button ion-item icon-left (click)="onLoad(signinPage)">
-                <ion-icon name="home"></ion-icon>
-                Login
+                <ion-icon name="log-in"></ion-icon>
+                Signin
             </button>
             <button ion-item icon-left (click)="onLoad(signupPage)">
-                <ion-icon name="home"></ion-icon>
+                <ion-icon name="person"></ion-icon>
                 Signup
             </button>
+            <button ion-item icon-left (click)="onLogout()">
+                <ion-icon name="log-out"></ion-icon>
+                Logout
+            </button>
+            
         </ion-list>
     </ion-content>
 </ion-menu>

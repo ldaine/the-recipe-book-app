@@ -1,3 +1,4 @@
+import { TabsPage } from './../pages/tabs/tabs';
 import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -7,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   templateUrl: 'app.html'
 })
 export class MyApp {
+  recipePage:any = TabsPage;
   signinPage:any = "SigninPage";
   signupPage:any = "SignupPage";
 
@@ -21,8 +23,13 @@ export class MyApp {
     });
   }
 
-  onLoad(page:string){
+  onLoad(page:any){
     this.nav.setRoot(page); 
+    this.menuCtrl.close();
+  }
+
+  onLogout(){
+    console.log("on logout"); 
     this.menuCtrl.close();
   }
 }

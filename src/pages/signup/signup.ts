@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -9,20 +9,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SignupPage implements OnInit {
 
-  signupForm: FormGroup; 
-
-  constructor(public navCtrl: NavController) {
-  }
+  constructor(public navCtrl: NavController) {}
 
   ngOnInit(){
-    this.signupForm = new FormGroup({
-      email: new FormControl(null, Validators.required), 
-      password: new FormControl(null, Validators.required)
-    })
   }
 
-  onSignup(){
-    this.navCtrl.setRoot("LoginPage")
+  onSignup(form: NgForm){
+    this.navCtrl.setRoot("LoginPage", form.value); 
   }
 
 }

@@ -1,5 +1,5 @@
 import { TabsPage } from './../tabs/tabs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { IonicPage, NavController } from 'ionic-angular';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,18 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SigninPage implements OnInit{
 
-    loginForm: FormGroup; 
 
     constructor(private navCtrl: NavController){}
 
     ngOnInit(){
-        this.loginForm = new FormGroup({
-            email: new FormControl(null, Validators.required), 
-            password: new FormControl(null, Validators.required)
-        })
+        
     }
 
-    onLogin(){
+    onLogin(form: NgForm){
         this.navCtrl.push(TabsPage); 
         //console.log('on login'); 
     }
