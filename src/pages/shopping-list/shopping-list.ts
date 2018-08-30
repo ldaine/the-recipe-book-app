@@ -56,8 +56,8 @@ export class ShoppingListPage {
         this.shoppingList = this.shoppingListService.getItems(); 
     }
 
-    presentPopover(event){
-        const popover = this.popoverCtrl.create("PopoverPage"); 
-        popover.present({ev: event}); 
+    onShowOptions(event: MouseEvent){
+        const popover = this.popoverCtrl.create("SLOptionsPage"); 
+        popover.present({ev:event}); 
     }
 }
