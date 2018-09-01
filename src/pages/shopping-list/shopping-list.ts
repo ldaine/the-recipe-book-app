@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth';
 import { Ingredient } from './../../models/ingredient';
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, PopoverController } from 'ionic-angular';
@@ -15,7 +16,8 @@ export class ShoppingListPage {
 
     constructor(private shoppingListService: ShoppingListService, 
                 private alertCtrl:AlertController, 
-                private popoverCtrl: PopoverController){}
+                private popoverCtrl: PopoverController, 
+                private authService: AuthService){}
     
     ionViewWillEnter(){
         this.loadItems(); 
@@ -59,5 +61,45 @@ export class ShoppingListPage {
     onShowOptions(event: MouseEvent){
         const popover = this.popoverCtrl.create("SLOptionsPage"); 
         popover.present({ev:event}); 
+        popover.onDidDismiss(
+            data=>{
+                if (data.action == 'load'){
+                    this.authService.getActiveUser().getIdToken()
+                    .then(
+                        (token:string)=>{
+                            this.shoppingListService.fetchList(token)
+                            .subscribe(
+                                (list:Ingredient[])=>{
+                                    console.log('success',data); 
+                                    if(list){
+                                        this.shoppingList = list; 
+                                    } else {
+                                        this.shoppingList = []; 
+                                    }
+                                }, 
+                                error=>{
+                                    console.log('error', error); 
+                                }
+                            )
+                        }
+                    ); 
+                } else {
+                    this.authService.getActiveUser().getIdToken()
+                    .then(
+                        (token:string)=>{
+                            this.shoppingListService.storeList(token)
+                                .subscribe(
+                                    data=>{
+                                        console.log('success',data); 
+                                    }, 
+                                    error=>{
+                                        console.log('error', error); 
+                                    }
+                                )
+                        }
+                    ); 
+                }
+            }
+        );
     }
 }

@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { ShoppingListService } from '../services/shopping-list';
 import { AuthService } from '../services/auth';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AuthService } from '../services/auth';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule, 
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
