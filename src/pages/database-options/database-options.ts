@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 
 @IonicPage()
 @Component({
-    selector: 'page-sl-options', 
-    templateUrl: 'sl-options.html'
+    selector: 'page-database-options', 
+    templateUrl: 'database-options.html'
 })
-export class SLOptionsPage {
+export class DatabaseOptionsPage {
 
     constructor(private viewCtrl: ViewController){}
 

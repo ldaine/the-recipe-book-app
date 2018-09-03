@@ -1,7 +1,7 @@
 import { AuthService } from './../../services/auth';
 import { Ingredient } from './../../models/ingredient';
 import { Component } from '@angular/core';
-import { IonicPage, AlertController, PopoverController } from 'ionic-angular';
+import { IonicPage, AlertController, PopoverController, LoadingController } from 'ionic-angular';
 import { ShoppingListService } from '../../services/shopping-list';
 import { NgForm } from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class ShoppingListPage {
     constructor(private shoppingListService: ShoppingListService, 
                 private alertCtrl:AlertController, 
                 private popoverCtrl: PopoverController, 
+                private loadingCtrl: LoadingController, 
                 private authService: AuthService){}
     
     ionViewWillEnter(){
@@ -54,22 +55,26 @@ export class ShoppingListPage {
         alert.present(); 
     }
 
-    private loadItems(){
-        this.shoppingList = this.shoppingListService.getItems(); 
-    }
-
-    onShowOptions(event: MouseEvent){
-        const popover = this.popoverCtrl.create("SLOptionsPage"); 
+        onShowOptions(event: MouseEvent){
+        const loading = this.loadingCtrl.create({
+            content:"Please wait..."
+        }); 
+        const popover = this.popoverCtrl.create("DatabaseOptionsPage"); 
         popover.present({ev:event}); 
         popover.onDidDismiss(
             data=>{
+                if(!data){
+                    return; 
+                }
                 if (data.action == 'load'){
+                    loading.present(); 
                     this.authService.getActiveUser().getIdToken()
                     .then(
                         (token:string)=>{
                             this.shoppingListService.fetchList(token)
                             .subscribe(
                                 (list:Ingredient[])=>{
+                                    loading.dismiss(); 
                                     console.log('success',data); 
                                     if(list){
                                         this.shoppingList = list; 
@@ -78,22 +83,26 @@ export class ShoppingListPage {
                                     }
                                 }, 
                                 error=>{
-                                    console.log('error', error); 
+                                    loading.dismiss(); 
+                                    this.handleError(error.json().error)
                                 }
                             )
                         }
                     ); 
-                } else {
+                } else if (data.action == 'store'){
+                    loading.present(); 
                     this.authService.getActiveUser().getIdToken()
                     .then(
                         (token:string)=>{
                             this.shoppingListService.storeList(token)
                                 .subscribe(
                                     data=>{
+                                        loading.dismiss(); 
                                         console.log('success',data); 
                                     }, 
                                     error=>{
-                                        console.log('error', error); 
+                                        loading.dismiss(); 
+                                        this.handleError(error.json().error)
                                     }
                                 )
                         }
@@ -101,5 +110,18 @@ export class ShoppingListPage {
                 }
             }
         );
+    }
+
+    private loadItems(){
+        this.shoppingList = this.shoppingListService.getItems(); 
+    }
+
+    private handleError(errorMessage: string){
+        const alert = this.alertCtrl.create({
+            title: "An error occured!", 
+            message: errorMessage, 
+            buttons:['Ok']
+        }); 
+        alert.present(); 
     }
 }
